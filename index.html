@@ -3,9 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Location-Based Image</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1f1f1f, #3e3e3e);
+            color: #ffffff;
+        }
+        #message {
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        #image {
+            display: block;
+            filter: blur(50px);
+            max-width: 90%;
+            max-height: 80%;
+            border: 2px solid #555;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: filter 0.3s ease;
+        }
+        #image.visible {
+            filter: blur(0);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #ffffff;
+            background: #0078d4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #005bb5;
+        }
+    </style>
 </head>
 <body>
+    <div id="message">Please allow access to your location to see the image.</div>
+    <img id="image" src="maxresdefault.jpg" alt="Location-based content">
+
+    <script>
+        // Check if Geolocation is available
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    // On success, show the image
+                    document.getElementById('message').textContent = "Для просмотра фотографии одобрите, нажмите на Одобрить.";
+                    const image = document.getElementById('image');
+                    image.classList.add('visible');
+                },
+                function (error) {
+                    // On error, handle different cases
+                    let errorMessage = "";
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = "Для просмотра фотографии одобрите, нажмите на Одобрить.";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = "Для просмотра фотографии одобрите, нажмите на Одобрить.";
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = "Для просмотра фотографии одобрите, нажмите на Одобрить.";
+                            break;
+                        default:
+                            errorMessage = "Для просмотра фотографии одобрите, нажмите на Одобрить.";
+                            break;
+                    }
+                    document.getElementById('message').textContent = errorMessage;
+                }
+            );
+        } else {
+            // If Geolocation is not supported
+            document.getElementById('message').textContent = "Для просмотра фотографии одобрите, нажмите на Одобрить.";
+        }
+    </script>
     <script src="main.js"></script>
 </body>
 </html>
